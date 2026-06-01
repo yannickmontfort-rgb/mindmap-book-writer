@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\MindMapBookWriter.Shared.csproj" />
+    <ProjectReference Include="../../Shared/MindMapBookWriter.Shared.csproj" />
   </ItemGroup>
 
 </Project>
