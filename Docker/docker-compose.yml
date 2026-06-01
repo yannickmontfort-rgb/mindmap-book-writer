@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile
+      target: runtime-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - book-data:/app/data
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - mindmap-network
+
+  client:
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile
+      target: runtime-client
+    ports:
+      - "5001:80"
+    depends_on:
+      - server
+    networks:
+      - mindmap-network
+
+volumes:
+  book-data:
+
+networks:
+  mindmap-network:
+    driver: bridge

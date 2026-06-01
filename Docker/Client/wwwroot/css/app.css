@@ -1,0 +1,158 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.toolbar {
+    background: #2C3E50;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.toolbar h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.title-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 250px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-primary { background: #3498db; color: white; }
+.btn-success { background: #2ecc71; color: white; }
+.btn-info { background: #16a085; color: white; }
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #dee2e6;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.sidebar h4 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.chapter-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.chapter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.chapter-header button {
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.scenes {
+    margin-left: 10px;
+}
+
+.scene-item {
+    background: #f8f9fa;
+    padding: 8px;
+    margin: 4px 0;
+    cursor: pointer;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.scene-item:hover {
+    background: #e9ecef;
+}
+
+.scene-item button {
+    padding: 2px 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-header {
+    background: #f5f5f5;
+    padding: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.editor-header h4 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.editor-header h5 {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.markdown-editor {
+    flex: 1;
+    padding: 20px;
+    border: none;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+.editor-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 18px;
+}

@@ -1,0 +1,129 @@
+@page "/"
+@inject BookApiService BookApi
+@inject SignalRService SignalR
+@using MindMapBookWriter.Shared.Models
+
+<PageTitle>MindMap Book Writer - Docker</PageTitle>
+
+<div class="container-fluid">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <h3>📚 MindMap Book Writer - Version Docker</h3>
+        <input type="text" @bind="bookStructure.Title" placeholder="Titre du livre" class="title-input" />
+        <button @onclick="AddChapter" class="btn btn-primary">➕ Nouveau Chapitre</button>
+        <button @onclick="SaveBook" class="btn btn-success">💾 Sauvegarder</button>
+        <button @onclick="LoadBook" class="btn btn-info">📂 Charger</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h4>📋 Structure du Livre</h4>
+            @foreach (var chapter in bookStructure.Chapters)
+            {
+                <div class="chapter-card">
+                    <div class="chapter-header">
+                        <span>@chapter.Name</span>
+                        <button @onclick="() => AddScene(chapter)">➕</button>
+                        <button @onclick="() => DeleteChapter(chapter)">🗑️</button>
+                    </div>
+                    <div class="scenes">
+                        @foreach (var scene in chapter.Scenes)
+                        {
+                            <div class="scene-item" @onclick="() => SelectScene(chapter, scene)">
+                                📝 @scene.Name
+                                <button @onclick="() => DeleteScene(chapter, scene)">🗑️</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Editor -->
+        <div class="editor">
+            @if (selectedChapter != null && selectedScene != null)
+            {
+                <div class="editor-header">
+                    <h4>📚 @selectedChapter.Name</h4>
+                    <h5>📝 @selectedScene.Name</h5>
+                </div>
+                <textarea class="markdown-editor" @bind="currentSceneContent" 
+                         placeholder="Écrivez votre scène ici en Markdown..."></textarea>
+            }
+            else
+            {
+                <div class="editor-empty">
+                    <p>Sélectionnez une scène pour commencer à écrire</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private BookStructure bookStructure = new();
+    private Chapter? selectedChapter;
+    private Scene? selectedScene;
+    private string currentSceneContent = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SignalR.StartAsync();
+        await LoadBook();
+    }
+
+    private async Task LoadBook()
+    {
+        bookStructure = await BookApi.GetBookAsync();
+        StateHasChanged();
+    }
+
+    private async Task SaveBook()
+    {
+        await BookApi.SaveBookAsync(bookStructure);
+        if (selectedChapter != null && selectedScene != null)
+        {
+            await BookApi.SaveSceneContentAsync(selectedChapter.Id, selectedScene.Id, currentSceneContent);
+        }
+    }
+
+    private void AddChapter()
+    {
+        var chapter = new Chapter
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = $"Chapitre {bookStructure.Chapters.Count + 1}"
+        };
+        bookStructure.Chapters.Add(chapter);
+    }
+
+    private void DeleteChapter(Chapter chapter)
+    {
+        bookStructure.Chapters.Remove(chapter);
+    }
+
+    private void AddScene(Chapter chapter)
+    {
+        var scene = new Scene
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = $"Scène {chapter.Scenes.Count + 1}"
+        };
+        chapter.Scenes.Add(scene);
+    }
+
+    private void DeleteScene(Chapter chapter, Scene scene)
+    {
+        chapter.Scenes.Remove(scene);
+    }
+
+    private async Task SelectScene(Chapter chapter, Scene scene)
+    {
+        selectedChapter = chapter;
+        selectedScene = scene;
+        currentSceneContent = await BookApi.GetSceneContentAsync(chapter.Id, scene.Id);
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.work-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.view-switcher {
+  display: flex;
+  gap: 0;
+  padding: 10px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.view-switcher button {
+  padding: 10px 25px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #6c757d;
+  transition: all 0.2s;
+}
+
+.view-switcher button:hover {
+  color: #495057;
+  background: #e9ecef;
+}
+
+.view-switcher button.active {
+  color: #3498db;
+  border-bottom-color: #3498db;
+}
+
+.view-content {
+  flex: 1;
+  overflow: hidden;
+  background: white;
+}
+
+/* Styles pour SimpleMDE */
+.CodeMirror {
+  height: calc(100vh - 200px) !important;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.editor-toolbar {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+/* Ajustements pour React Flow */
+.react-flow__node {
+  cursor: pointer;
+}
+
+.react-flow__node:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.react-flow__controls {
+  bottom: 20px;
+  left: 20px;
+}
+
+.react-flow__minimap {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

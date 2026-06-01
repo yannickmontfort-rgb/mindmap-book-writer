@@ -1,0 +1,28 @@
+<Application x:Class="MindMapBookWriter.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:MindMapBookWriter.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Material Design -->
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Orange" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Convertisseurs -->
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+
+            <!-- Couleurs personnalisées -->
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#4A90E2"/>
+            <SolidColorBrush x:Key="SecondaryBrush" Color="#50C878"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="#F39C12"/>
+            <SolidColorBrush x:Key="BackgroundBrush" Color="#F8F9FA"/>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

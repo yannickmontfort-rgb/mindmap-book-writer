@@ -1,0 +1,155 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="800"
+        x:Class="MindMapBookWriter.Views.MainWindow"
+        Title="MindMap Book Writer - Linux"
+        Width="1400" Height="800">
+
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Toolbar -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="15,10">
+            <StackPanel Orientation="Horizontal" Spacing="15">
+                <TextBlock Text="📚 MindMap Book Writer" 
+                          FontSize="18" 
+                          FontWeight="Bold" 
+                          Foreground="White" 
+                          VerticalAlignment="Center"/>
+                
+                <TextBox Text="{Binding BookStructure.Title}" 
+                        Width="250" 
+                        Watermark="Titre du livre"
+                        VerticalAlignment="Center"/>
+                
+                <Button Content="📁 Sélectionner dossier" 
+                       Command="{Binding SelectProjectFolderCommand}"/>
+                <Button Content="➕ Nouveau Chapitre" 
+                       Command="{Binding AddChapterCommand}"/>
+                <Button Content="💾 Sauvegarder" 
+                       Command="{Binding SaveProjectCommand}"/>
+                <Button Content="📂 Charger" 
+                       Command="{Binding LoadProjectCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" ColumnDefinitions="280,*">
+            
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="White" BorderBrush="#DEE2E6" BorderThickness="0,0,1,0">
+                <ScrollViewer>
+                    <StackPanel Margin="15" Spacing="10">
+                        <TextBlock Text="📋 Structure du Livre" 
+                                  FontSize="16" 
+                                  FontWeight="Bold"/>
+                        
+                        <ItemsControl ItemsSource="{Binding BookStructure.Chapters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="White" 
+                                           BorderBrush="#E0E0E0" 
+                                           BorderThickness="1" 
+                                           CornerRadius="5" 
+                                           Padding="10"
+                                           Margin="0,0,0,5">
+                                        <StackPanel Spacing="5">
+                                            <Grid ColumnDefinitions="*,Auto,Auto">
+                                                <TextBlock Grid.Column="0" 
+                                                         Text="{Binding Name}" 
+                                                         FontWeight="SemiBold"/>
+                                                <Button Grid.Column="1" 
+                                                       Content="➕" 
+                                                       Command="{Binding $parent[Window].DataContext.AddSceneCommand}"
+                                                       CommandParameter="{Binding}"/>
+                                                <Button Grid.Column="2" 
+                                                       Content="🗑️" 
+                                                       Command="{Binding $parent[Window].DataContext.DeleteChapterCommand}"
+                                                       CommandParameter="{Binding}"/>
+                                            </Grid>
+                                            
+                                            <ItemsControl ItemsSource="{Binding Scenes}" Margin="10,0,0,0">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Background="#F8F9FA" 
+                                                               Padding="8,5" 
+                                                               Margin="0,2"
+                                                               PointerPressed="Scene_PointerPressed">
+                                                            <Grid ColumnDefinitions="*,Auto">
+                                                                <TextBlock Grid.Column="0" 
+                                                                         Text="{Binding Name, StringFormat='📝 {0}'}" 
+                                                                         FontSize="12"/>
+                                                                <Button Grid.Column="1" 
+                                                                       Content="🗑️" 
+                                                                       FontSize="10"
+                                                                       Command="{Binding $parent[Window].DataContext.DeleteSceneCommand}"
+                                                                       CommandParameter="{Binding}"/>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Work Area -->
+            <Grid Grid.Column="1" RowDefinitions="Auto,*">
+                
+                <!-- View Switcher -->
+                <Border Grid.Row="0" Background="#F8F9FA" BorderBrush="#DEE2E6" BorderThickness="0,0,0,1" Padding="15,10">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <RadioButton Content="🗺️ Carte Mentale" 
+                                    IsChecked="{Binding IsMindMapView}"/>
+                        <RadioButton Content="✍️ Éditeur" 
+                                    IsChecked="{Binding !IsMindMapView}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Content -->
+                <Grid Grid.Row="1">
+                    <!-- Mind Map View -->
+                    <Border IsVisible="{Binding IsMindMapView}" 
+                           Background="White">
+                        <TextBlock Text="🗺️ Carte Mentale (Vue simplifié pour Linux)"
+                                  FontSize="20"
+                                  Foreground="#999"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Editor View -->
+                    <Grid IsVisible="{Binding !IsMindMapView}" RowDefinitions="Auto,*">
+                        <Border Grid.Row="0" Background="#F5F5F5" Padding="20,15">
+                            <StackPanel Spacing="5">
+                                <TextBlock Text="{Binding SelectedChapter.Name, StringFormat='📚 {0}'}" 
+                                          FontSize="18" 
+                                          FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedScene.Name, StringFormat='📝 {0}'}" 
+                                          FontSize="14" 
+                                          Foreground="#666"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBox Grid.Row="1" 
+                                Text="{Binding CurrentSceneContent}" 
+                                AcceptsReturn="True"
+                                TextWrapping="Wrap"
+                                FontFamily="Consolas"
+                                FontSize="14"
+                                Padding="20"
+                                Background="White"
+                                BorderThickness="0"
+                                Watermark="Écrivez votre scène ici en Markdown..."/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
