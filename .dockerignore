@@ -1,0 +1,36 @@
+# Binaries
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# VS Code
+.vscode/
+.vs/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+
+# Node modules (pour Electron)
+node_modules/
+
+# Build outputs Windows/Linux
+Windows/bin/
+Windows/obj/
+Linux/bin/
+Linux/obj/
+
+# Electron
+electron/
+
+# Autres
+*.user
+*.suo
+*.cache
+*.log
