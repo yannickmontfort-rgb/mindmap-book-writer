@@ -1,8 +1,14 @@
 version: '3.8'
 
+# Stack Portainer pour MindMap Book Writer
+# Username GitHub: yannickmontfort-rgb
+# 
+# IMPORTANT: Dans Portainer, définir la variable d'environnement:
+# GITHUB_USERNAME = yannickmontfort-rgb
+
 services:
   server:
-    image: ghcr.io/${GITHUB_USERNAME}/mindmap-book-writer-server:latest
+    image: ghcr.io/yannickmontfort-rgb/mindmap-book-writer-server:latest
     container_name: mindmap-server
     restart: unless-stopped
     ports:
@@ -23,7 +29,7 @@ services:
       start_period: 40s
 
   client:
-    image: ghcr.io/${GITHUB_USERNAME}/mindmap-book-writer-client:latest
+    image: ghcr.io/yannickmontfort-rgb/mindmap-book-writer-client:latest
     container_name: mindmap-client
     restart: unless-stopped
     ports:
