@@ -2,13 +2,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-server
 WORKDIR /src
 
-COPY ["Docker/Server/MindMapBookWriter.Server.csproj", "Server/"]
+# Copier les fichiers de projet en respectant la structure de dossiers
+COPY ["Docker/Server/MindMapBookWriter.Server.csproj", "Docker/Server/"]
 COPY ["Shared/MindMapBookWriter.Shared.csproj", "Shared/"]
-RUN dotnet restore "Server/MindMapBookWriter.Server.csproj"
+RUN dotnet restore "Docker/Server/MindMapBookWriter.Server.csproj"
 
-COPY Docker/Server/ Server/
+# Copier le reste des fichiers
+COPY Docker/Server/ Docker/Server/
 COPY Shared/ Shared/
-WORKDIR "/src/Server"
+WORKDIR "/src/Docker/Server"
 RUN dotnet build "MindMapBookWriter.Server.csproj" -c Release -o /app/build
 RUN dotnet publish "MindMapBookWriter.Server.csproj" -c Release -o /app/publish
 
@@ -16,13 +18,15 @@ RUN dotnet publish "MindMapBookWriter.Server.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-client
 WORKDIR /src
 
-COPY ["Docker/Client/MindMapBookWriter.Client.csproj", "Client/"]
+# Copier les fichiers de projet en respectant la structure de dossiers
+COPY ["Docker/Client/MindMapBookWriter.Client.csproj", "Docker/Client/"]
 COPY ["Shared/MindMapBookWriter.Shared.csproj", "Shared/"]
-RUN dotnet restore "Client/MindMapBookWriter.Client.csproj"
+RUN dotnet restore "Docker/Client/MindMapBookWriter.Client.csproj"
 
-COPY Docker/Client/ Client/
+# Copier le reste des fichiers
+COPY Docker/Client/ Docker/Client/
 COPY Shared/ Shared/
-WORKDIR "/src/Client"
+WORKDIR "/src/Docker/Client"
 RUN dotnet publish "MindMapBookWriter.Client.csproj" -c Release -o /app/publish
 
 # Stage 3: Runtime Server
