@@ -11,7 +11,7 @@ RUN dotnet restore "Docker/Server/MindMapBookWriter.Server.csproj"
 COPY Docker/Server/ Docker/Server/
 COPY Shared/ Shared/
 WORKDIR "/src/Docker/Server"
-RUN dotnet publish "MindMapBookWriter.Server.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MindMapBookWriter.Server.csproj" -c Release -o /app/publish /p:UseAppHost=false --verbosity detailed
 
 # Stage 2: Build Client
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-client
